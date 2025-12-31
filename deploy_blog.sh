@@ -1,13 +1,14 @@
 #!/bin/bash
 ###############################################################################
-# Deploy Quarto Blog to projects.rajivshah.com
+# Deploy Quarto Blog to rajivshah.com via Git
 #
-# Usage: ./deploy_blog.sh
+# NOTE: This script is deprecated. The blog now deploys via GitHub.
 #
-# What it does:
-# 1. Renders the Quarto blog (if needed)
-# 2. Syncs web/ directory to server via SFTP
-# 3. Uploads images to server
+# New deployment process:
+# 1. Copy images to ~/Code/rajiv-shah-website/public/blog/images/[talk-name]/
+# 2. Re-render index: cd ~/Code/rajistics_blog && quarto render index.qmd
+# 3. Git commit and push from ~/Code/rajiv-shah-website
+# 4. Vercel automatically deploys to rajivshah.com/blog
 ###############################################################################
 
 set -e  # Exit on error
@@ -17,7 +18,7 @@ set -e  # Exit on error
 # ============================================
 
 BLOG_DIR="$HOME/Code/rajistics_blog"
-SERVER="projects.rajivshah.com"
+SERVER="rajivshah.com"
 USER="root"
 REMOTE_BLOG_PATH="/var/www/html/blog"  # Update with actual path
 REMOTE_IMAGES_PATH="/var/www/html/images"  # Update with actual path
@@ -135,5 +136,5 @@ echo "📊 Deployed:"
 echo "   - Blog HTML: $SERVER:$REMOTE_BLOG_PATH/"
 echo "   - Images: $SERVER:$REMOTE_IMAGES_PATH/"
 echo ""
-echo "🌐 Live at: https://projects.rajivshah.com/blog"
+echo "🌐 Live at: https://rajivshah.com/blog"
 echo ""

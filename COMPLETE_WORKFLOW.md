@@ -91,7 +91,7 @@ python create_quarto_post.py
 
 **What it does:**
 - Creates .qmd file with Summary/Full tabs
-- Updates image URLs to https://projects.rajivshah.com/images/talk-name/...
+- Updates image URLs to https://rajivshah.com/images/talk-name/...
 - Renders with Quarto automatically
 - Ready for deployment
 
@@ -107,26 +107,34 @@ python create_quarto_post.py
 
 ---
 
-### Step 3: Deploy to Server
+### Step 3: Deploy to Website
 
-**Script:** `deploy_blog.py` (in rajistics_blog directory)
-
-**Prerequisites:**
-- .env file with credentials (already set up)
-- sshpass installed: `brew install hudochenkov/sshpass/sshpass`
+**Method:** Git-based deployment via Vercel
 
 **Run:**
 ```bash
+# 1. Copy images to website
+mkdir -p ~/Code/rajiv-shah-website/public/blog/images/[talk-name]
+cp ~/Code/my-agent-skills/output/[talk-name]/images/* \
+   ~/Code/rajiv-shah-website/public/blog/images/[talk-name]/
+
+# 2. Re-render blog index (IMPORTANT!)
 cd ~/Code/rajistics_blog
-python deploy_blog.py
+quarto render index.qmd
+
+# 3. Commit and push to GitHub
+cd ~/Code/rajiv-shah-website
+git add public/blog/
+git commit -m "Add new blog post: [title]"
+git push
 ```
 
 **What it does:**
-1. Syncs web/ directory → projects.rajivshah.com/var/www/html/blog/
-2. Uploads images → /var/www/html/images/talk-name/
-3. Uses credentials from .env
+1. Copies slide images to website public directory
+2. Updates blog index with new post metadata
+3. Deploys to rajivshah.com/blog via GitHub → Vercel
 
-**Time:** ~2 minutes (depending on file sizes)
+**Time:** ~1-2 minutes
 
 ---
 
@@ -185,7 +193,7 @@ output/talk-name/images/slide_1.png
 
 **In markdown (after create_quarto_post.py):**
 ```markdown
-![](https://projects.rajivshah.com/images/talk-name/slide_1.png)
+![](https://rajivshah.com/images/talk-name/slide_1.png)
 ```
 
 **On server (after deploy):**
@@ -195,7 +203,7 @@ output/talk-name/images/slide_1.png
 
 **Live URL:**
 ```
-https://projects.rajivshah.com/images/talk-name/slide_1.png
+https://rajivshah.com/images/talk-name/slide_1.png
 ```
 
 ---
@@ -222,7 +230,7 @@ quarto render your-post.qmd
 - Check Gemini console for quota
 
 ### Images not showing
-- Check image URLs in .qmd file (should be https://projects.rajivshah.com/images/...)
+- Check image URLs in .qmd file (should be https://rajivshah.com/images/...)
 - Verify images uploaded: ls /var/www/html/images/talk-name/ on server
 - Check deploy_blog.py ran successfully
 
@@ -302,7 +310,7 @@ This workflow was used to create the RAG talk blog post:
    - Processing time: ~8 minutes
 
 3. **Result:**
-   - Live at: https://projects.rajivshah.com/blog/rag-agentic-world.html
+   - Live at: https://rajivshah.com/blog/rag-agentic-world.html
    - Both versions accessible via tabs
    - All images loading correctly
 

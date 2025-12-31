@@ -172,7 +172,7 @@ python create_quarto_post.py       # Combine into Quarto format
 # 5. Build and publish
 cd ~/Code/rajistics_blog
 quarto render your-talk.qmd
-# Copy web/ contents to projects.rajivshah.com/blog
+# Copy web/ contents to rajivshah.com/blog
 ```
 
 ---

@@ -15,22 +15,22 @@ import re
 
 CONFIG = {
     # Source (from video_to_blog.py output)
-    "talk_name": "rag-talk",
-    "source_dir": Path.home() / "Code" / "my-agent-skills" / "output" / "rag-talk",
+    "talk_name": "model-interpretability-explainability",
+    "source_dir": Path.home() / "Code" / "my-agent-skills" / "output" / "model-interpretability-explainability",
 
     # Destination (Quarto blog)
     "blog_dir": Path.home() / "Code" / "rajistics_blog",
 
     # Quarto post filename
-    "post_filename": "rag-agentic-world.qmd",
+    "post_filename": "model-interpretability-explainability.qmd",
 
     # Quarto front matter
-    "title": "From Vectors to Agents: Managing RAG in an Agentic World",
-    "date": "2025-10-27",
-    "categories": ["RAG", "AI", "Retrieval", "Agentic", "Annotated Talk"],
+    "title": "Model Interpretability and Explainability for Machine Learning Models",
+    "date": "2020-04-15",
+    "categories": ["Interpretability", "Explainability", "Machine Learning", "XAI", "Annotated Talk"],
 
     # Video URL
-    "video_url": "https://youtu.be/AS_HlJbJjH8",
+    "video_url": "https://youtu.be/ZRckw_fE56Q",
 
     # Options
     "auto_render": True,  # Run quarto render after creating
@@ -112,7 +112,7 @@ toc-depth: 2
 
 {{{{< video {CONFIG['video_url']} >}}}}
 
-Watch the [full video]({CONFIG['video_url']}) | [Slides]({CONFIG['video_url']})
+Watch the [full video]({CONFIG['video_url']})
 
 ---
 
@@ -168,8 +168,12 @@ Below is an annotated version of the presentation, with timestamped links to the
     print(f"   1. Review: open {post_file}")
     if not CONFIG["auto_render"]:
         print(f"   2. Render: cd ~/Code/rajistics_blog && quarto render {CONFIG['post_filename']}")
-    print(f"   3. Deploy: python deploy_blog.py")
-    print(f"      (Uploads web/ and images/ to projects.rajivshah.com)")
+    print(f"   3. Copy images to website:")
+    print(f"      mkdir -p ~/Code/rajiv-shah-website/public/blog/images/{CONFIG['talk_name']}")
+    print(f"      cp {source_dir / 'images'}/* ~/Code/rajiv-shah-website/public/blog/images/{CONFIG['talk_name']}/")
+    print(f"   4. Re-render index: cd ~/Code/rajistics_blog && quarto render index.qmd")
+    print(f"   5. Deploy: cd ~/Code/rajiv-shah-website && git add . && git commit && git push")
+    print(f"      (Deploys to rajivshah.com/blog via GitHub)")
 
 if __name__ == "__main__":
     main()
