@@ -50,21 +50,6 @@ def strip_front_matter(content: str) -> str:
     cleaned = re.sub(pattern, '', content, count=1, flags=re.DOTALL)
     return cleaned.strip()
 
-def demote_section_headers(content: str) -> str:
-    """
-    Convert ## headers to ### headers.
-    This prevents section headers from becoming separate tabs in Quarto.
-    """
-    lines = content.split('\n')
-    result = []
-    for line in lines:
-        if line.startswith('## '):
-            # Demote to ###
-            result.append('###' + line[2:])
-        else:
-            result.append(line)
-    return '\n'.join(result)
-
 # ============================================
 # MAIN SCRIPT
 # ============================================
@@ -80,56 +65,38 @@ def main():
     # Read the generated content
     print("\n📚 Reading generated content...")
 
-    # Try different filename patterns (from different scripts)
-    summary_file = source_dir / "blog_post_summary.md"
-    if not summary_file.exists():
-        summary_file = source_dir / "blog_post_polished.md"
-
-    full_file = source_dir / "blog_post_full.md"
-    if not full_file.exists():
-        full_file = source_dir / "blog_post_annotated_full.md"
-
-    if not summary_file.exists() or not full_file.exists():
-        print(f"❌ Error: Content files not found in {source_dir}")
-        print(f"   Looking for: {summary_file.name} and {full_file.name}")
+    # Look for the annotated presentation file
+    annotated_file = source_dir / "blog_post_annotated.md"
+    if not annotated_file.exists():
+        print(f"❌ Error: Content file not found in {source_dir}")
+        print(f"   Looking for: {annotated_file.name}")
         print("   Run video_to_blog.py first!")
         return
 
-    with open(summary_file, 'r') as f:
-        summary_content = f.read()
+    with open(annotated_file, 'r') as f:
+        annotated_content = f.read()
 
-    with open(full_file, 'r') as f:
-        full_content = f.read()
-
-    print(f"   ✅ Summary: {len(summary_content):,} characters")
-    print(f"   ✅ Full: {len(full_content):,} characters\n")
+    print(f"   ✅ Annotated content: {len(annotated_content):,} characters\n")
 
     # Strip any embedded front matter from AI-generated content
     print("🧹 Cleaning content...")
-    summary_content = strip_front_matter(summary_content)
-    full_content = strip_front_matter(full_content)
-
-    # Demote ## headers to ### to prevent extra tabs
-    summary_content = demote_section_headers(summary_content)
-    full_content = demote_section_headers(full_content)
-    print("   ✅ Removed embedded front matter and fixed header levels\n")
+    annotated_content = strip_front_matter(annotated_content)
+    print("   ✅ Removed embedded front matter\n")
 
     # Update image paths to use full URLs (as in existing posts)
     print("🖼️  Updating image paths...")
 
     # Images will be at https://projects.rajivshah.com/images/talk-name/slide_X.png
-    # Match the pattern from existing posts like running-code-failing-models.md
     image_base_url = f"https://projects.rajivshah.com/images/{CONFIG['talk_name']}"
 
-    summary_content = summary_content.replace("images/", f"{image_base_url}/")
-    full_content = full_content.replace("images/", f"{image_base_url}/")
+    annotated_content = annotated_content.replace("images/", f"{image_base_url}/")
 
     # Set cover image (first slide)
     cover_image = f"{image_base_url}/slide_1.png"
 
     print(f"   ✅ Image URLs updated to: {image_base_url}/...\n")
 
-    # Create Quarto post with tabs
+    # Create Quarto post
     print("📄 Creating Quarto post...")
 
     quarto_content = f"""---
@@ -137,26 +104,27 @@ title: "{CONFIG['title']}"
 date: "{CONFIG['date']}"
 categories: {CONFIG['categories']}
 image: {cover_image}
+toc: true
+toc-depth: 2
 ---
-![{CONFIG['title']}]({cover_image})
 
-Watch the [full video]({CONFIG['video_url']}) (50 mins)
+## Video
 
-::: {{.panel-tabset}}
+{{{{< video {CONFIG['video_url']} >}}}}
 
-## Summary (5 min read)
-
-{summary_content}
-
-## Full Annotated Walkthrough (45 min read)
-
-{full_content}
-
-:::
+Watch the [full video]({CONFIG['video_url']}) | [Slides]({CONFIG['video_url']})
 
 ---
 
-*This post was generated from the talk using automated tools. Summary and full transcript available above.*
+## Annotated Presentation
+
+Below is an annotated version of the presentation, with timestamped links to the relevant parts of the video for each slide.
+
+{annotated_content}
+
+---
+
+*This annotated presentation was generated from the talk using AI-assisted tools. Each slide includes timestamps and detailed explanations.*
 """
 
     # Write the Quarto file

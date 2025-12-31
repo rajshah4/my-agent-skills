@@ -26,14 +26,14 @@ load_dotenv()
 
 CONFIG = {
     # Talk details
-    "video_url": "https://youtu.be/AS_HlJbJjH8",
-    "slides_pdf": Path.home() / "Downloads" / "RAG_Oct2025.pdf",
-    "talk_name": "rag-talk",  # Used for output directory
+    "video_url": "https://youtu.be/qPHsWTZP58U",
+    "slides_pdf": Path.home() / "Downloads" / "Evaluation_ODSC_Oct_2025 (1).pdf",
+    "talk_name": "genai-evaluation-guide",  # Used for output directory
 
     # Quarto metadata (for final blog post)
-    "title": "From Vectors to Agents: Managing RAG in an Agentic World",
-    "date": "2025-01-15",
-    "categories": ["RAG", "AI", "Retrieval", "Agentic"],
+    "title": "A Practical Guide to Evaluating Generative AI Applications",
+    "date": "2025-11-01",
+    "categories": ["GenAI", "Evaluation", "LLM", "Testing"],
     "author": "Rajiv Shah",
 
     # Optional: Custom output location
@@ -129,81 +129,13 @@ def main():
         return
 
     # ========================================
-    # STEP 2: Generate Summary Version
+    # STEP 2: Generate Slide-by-Slide Annotation
     # ========================================
     print("=" * 60)
-    print("STEP 2: Generating Summary Version")
+    print("STEP 2: Generating Slide-by-Slide Annotations")
     print("=" * 60 + "\n")
 
-    prompt_summary = f"""You are an expert technical writer specializing in AI/ML content.
-
-I have a technical talk that I want to turn into a comprehensive blog post summary.
-
-VIDEO URL: {video_url}
-
-SLIDE OUTLINE:
-{outline}
-
-FULL TRANSCRIPT (with timestamps):
-{transcript[:30000]}... [transcript continues]
-
-Please create a polished, engaging blog post that:
-
-1. **Structure**:
-   - Start with a compelling introduction
-   - Use clear section headings
-   - Include relevant quotes from the transcript
-   - Add timestamps as links (e.g., [00:15:30]({video_url}&t=930s))
-   - Reference specific slides (e.g., "As shown in slide 13...")
-
-2. **Style**:
-   - Write in an engaging, accessible tone
-   - Explain technical concepts clearly
-   - Use markdown formatting
-   - Include key insights and takeaways
-
-3. **Content** (Cover main topics):
-   - Problem overview and why it matters
-   - Key technical approaches discussed
-   - Practical insights and recommendations
-   - Conclusion with takeaways
-
-4. **Format**:
-   - Use proper markdown
-   - Include image placeholders like: `![Slide 5](images/slide_5.png)`
-   - Target length: ~1,200 words
-
-Generate the blog post now:"""
-
-    print("🔄 Generating summary with Gemini...\n")
-    try:
-        response = client.models.generate_content(
-            model=model_name,
-            contents=prompt_summary,
-            config=types.GenerateContentConfig(
-                temperature=temperature,
-                max_output_tokens=8192,
-            )
-        )
-
-        summary = response.text
-        summary_file = output_dir / "blog_post_summary.md"
-        with open(summary_file, 'w') as f:
-            f.write(summary)
-
-        print(f"   ✅ Summary generated ({len(summary):,} characters)\n")
-    except Exception as e:
-        print(f"   ❌ Error: {e}\n")
-        return
-
-    # ========================================
-    # STEP 3: Generate Full Annotated Version
-    # ========================================
-    print("=" * 60)
-    print("STEP 3: Generating Full Annotated Version")
-    print("=" * 60 + "\n")
-
-    prompt_full = f"""You are creating a comprehensive, annotated blog post from a technical talk.
+    prompt_annotated = f"""You are creating a slide-by-slide annotated presentation from a technical talk.
 
 VIDEO URL: {video_url}
 
@@ -213,52 +145,62 @@ SLIDE SUMMARIES ({num_images} slides):
 FULL TRANSCRIPT WITH TIMESTAMPS:
 {transcript}
 
-Create a blog post that integrates the COMPLETE transcript with ALL slides at the appropriate moments.
+Create an annotated presentation that goes through EACH slide sequentially. For each slide:
+
+1. **Slide Header**: Format as "### N. [Slide Title]" where N is the slide number
+2. **Image**: Embed the slide image: `![Slide N](images/slide_N.png)`
+3. **Timestamp**: Add a timestamp link in format: `([Timestamp: MM:SS]({video_url}&t=XXXs))`
+4. **Explanation**: Write 2-3 paragraphs explaining:
+   - What the slide shows
+   - Key concepts introduced
+   - Important details from the transcript
+   - Why this matters or how it connects to other concepts
 
 REQUIREMENTS:
 
-1. **Main Content - Annotated Transcript**:
-   - Include the COMPLETE transcript, organized into logical sections
-   - Embed slide images at the exact moment they're discussed
-   - Format: `![Slide X: Brief description](images/slide_X.png)`
-   - Add section headers to break up the content
-   - Keep ALL the original spoken words - don't summarize
-   - Add timestamp links: `[MM:SS](video_url&t=XXs)`
+- Go through ALL {num_images} slides in sequential order (1, 2, 3...)
+- Match each slide to the relevant part of the transcript using timestamps
+- Use the slide outline to understand what each slide is about
+- Keep explanations clear and technical but accessible
+- Bold key terms and concepts
+- Include relevant quotes from the transcript
+- Maintain a progressive flow from basic to advanced concepts
 
-2. **Slide Placement**:
-   - Use the slide summaries to determine WHEN each slide appears
-   - Match slide topics to transcript content
-   - Embed ALL slides in order
+FORMAT EXAMPLE:
+### 1. Introduction to Topic
 
-3. **Structure**: Break the content into logical sections based on the talk flow
+![Slide 1](images/slide_1.png)
 
-4. **Important**:
-   - DO NOT summarize - include the full transcript
-   - DO NOT skip slides - embed all of them
-   - DO maintain chronological order
+([Timestamp: 01:23]({video_url}&t=83s))
 
-Generate the complete annotated blog post now:"""
+First paragraph explaining what this slide introduces...
 
-    print("🔄 Generating full annotated version with Gemini...")
-    print("   (This takes longer - processing full transcript)\n")
+Second paragraph with key details and context...
+
+Third paragraph connecting to next concepts...
+
+Generate the complete slide-by-slide annotation now:"""
+
+    print("🔄 Generating slide-by-slide annotations with Gemini...")
+    print("   (This processes all slides and transcript)\n")
 
     try:
         response = client.models.generate_content(
             model=model_name,
-            contents=prompt_full,
+            contents=prompt_annotated,
             config=types.GenerateContentConfig(
                 temperature=temperature,
                 max_output_tokens=30000,
             )
         )
 
-        full = response.text
-        full_file = output_dir / "blog_post_full.md"
-        with open(full_file, 'w') as f:
-            f.write(full)
+        annotated = response.text
+        annotated_file = output_dir / "blog_post_annotated.md"
+        with open(annotated_file, 'w') as f:
+            f.write(annotated)
 
-        slide_count = full.count('![Slide')
-        print(f"   ✅ Full version generated ({len(full):,} characters, {slide_count} slides)\n")
+        slide_count = annotated.count('![Slide')
+        print(f"   ✅ Annotated presentation generated ({len(annotated):,} characters, {slide_count} slides)\n")
     except Exception as e:
         print(f"   ❌ Error: {e}\n")
         return
@@ -273,9 +215,8 @@ Generate the complete annotated blog post now:"""
     print(f"   - images/ ({num_images} slides)")
     print(f"   - transcript.txt")
     print(f"   - slide_outline.md")
-    print(f"   - blog_post_summary.md (~1,200 words)")
-    print(f"   - blog_post_full.md (~9,000 words)")
-    print(f"\n💡 Next: Create Quarto post with both versions in tabs")
+    print(f"   - blog_post_annotated.md (slide-by-slide format)")
+    print(f"\n💡 Next: Create Quarto post with annotated presentation")
 
 if __name__ == "__main__":
     main()
