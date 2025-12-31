@@ -7,6 +7,7 @@ Handles content, images, and optionally renders with Quarto
 from pathlib import Path
 import shutil
 import subprocess
+import re
 
 # ============================================
 # CONFIGURATION
@@ -34,6 +35,20 @@ CONFIG = {
     # Options
     "auto_render": True,  # Run quarto render after creating
 }
+
+# ============================================
+# HELPER FUNCTIONS
+# ============================================
+
+def strip_front_matter(content: str) -> str:
+    """
+    Remove YAML front matter from content if present.
+    Front matter is detected as content between --- markers at the start.
+    """
+    # Pattern: starts with ---, has content, ends with ---
+    pattern = r'^---\s*\n.*?\n---\s*\n'
+    cleaned = re.sub(pattern, '', content, count=1, flags=re.DOTALL)
+    return cleaned.strip()
 
 # ============================================
 # MAIN SCRIPT
@@ -74,6 +89,12 @@ def main():
     print(f"   ✅ Summary: {len(summary_content):,} characters")
     print(f"   ✅ Full: {len(full_content):,} characters\n")
 
+    # Strip any embedded front matter from AI-generated content
+    print("🧹 Cleaning content...")
+    summary_content = strip_front_matter(summary_content)
+    full_content = strip_front_matter(full_content)
+    print("   ✅ Removed any embedded front matter\n")
+
     # Update image paths to use full URLs (as in existing posts)
     print("🖼️  Updating image paths...")
 
@@ -98,6 +119,7 @@ date: "{CONFIG['date']}"
 categories: {CONFIG['categories']}
 image: {cover_image}
 ---
+![{CONFIG['title']}]({cover_image})
 
 Watch the [full video]({CONFIG['video_url']}) (50 mins)
 
