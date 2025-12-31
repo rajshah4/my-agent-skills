@@ -15,22 +15,22 @@ import re
 
 CONFIG = {
     # Source (from video_to_blog.py output)
-    "talk_name": "genai-evaluation-guide",
-    "source_dir": Path.home() / "Code" / "my-agent-skills" / "output" / "genai-evaluation-guide",
+    "talk_name": "rag-talk",
+    "source_dir": Path.home() / "Code" / "my-agent-skills" / "output" / "rag-talk",
 
     # Destination (Quarto blog)
     "blog_dir": Path.home() / "Code" / "rajistics_blog",
 
     # Quarto post filename
-    "post_filename": "genai-evaluation-guide.qmd",
+    "post_filename": "rag-agentic-world.qmd",
 
     # Quarto front matter
-    "title": "A Practical Guide to Evaluating Generative AI Applications",
-    "date": "2025-11-01",
-    "categories": ["GenAI", "Evaluation", "LLM", "Testing"],
+    "title": "From Vectors to Agents: Managing RAG in an Agentic World",
+    "date": "2025-10-27",
+    "categories": ["RAG", "AI", "Retrieval", "Agentic", "Annotated Talk"],
 
     # Video URL
-    "video_url": "https://youtu.be/qPHsWTZP58U",
+    "video_url": "https://youtu.be/AS_HlJbJjH8",
 
     # Options
     "auto_render": True,  # Run quarto render after creating
@@ -86,8 +86,8 @@ def main():
     # Update image paths to use full URLs (as in existing posts)
     print("🖼️  Updating image paths...")
 
-    # Images will be at https://projects.rajivshah.com/images/talk-name/slide_X.png
-    image_base_url = f"https://projects.rajivshah.com/images/{CONFIG['talk_name']}"
+    # Images will be at https://rajivshah.com/blog/images/talk-name/slide_X.png
+    image_base_url = f"https://rajivshah.com/blog/images/{CONFIG['talk_name']}"
 
     annotated_content = annotated_content.replace("images/", f"{image_base_url}/")
 

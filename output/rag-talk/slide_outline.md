@@ -1,71 +1,73 @@
-1. Introduces the presentation "From Vectors to Agents: Managing RAG in an Agentic World" by Rajiv Shah.
-2. Displays a logo for "ACME GPT," likely representing a hypothetical RAG system.
-3. Illustrates a simplified flow diagram of a basic RAG (Retrieval Augmented Generation) system, showing user query to LLM output.
-4. Presents a Python code snippet demonstrating a straightforward implementation of a RAG pipeline using LangChain.
-5. Highlights that 95% of Gen AI projects, including RAG, fail in production due to challenges in accuracy, latency, scaling, cost, and compliance.
-6. Lists numerous variations and advanced techniques within Retrieval Augmented Generation (RAG) beyond the basic approach.
-7. Features a humorous, over-engineered cartoon depicting an "Ultimate RAG Solution" that attempts to combine all possible algorithms and data types.
-8. Presents a comprehensive multi-stage diagram of RAG as a system, detailing parsing, querying, retrieving, and generation steps.
-9. Introduces a RAG design framework highlighting the tradeoffs between problem complexity, latency, and cost, alongside the "cost of a mistake."
-10. Outlines RAG considerations and a table categorizing different generation types based on query and retrieval complexity, from simple fact to deep reasoning.
-11. Provides examples of increasing query complexity, from simple keyword searches to multi-hop and agentic scenarios.
-12. Highlights the "Retrieval" stage within the RAG system diagram, emphasizing the core process of fetching relevant information.
-13. Introduces three main retrieval approaches: BM25 (keyword-based), Language Models (semantic embeddings), and Agentic Search (LLM reasoning).
-14. Revisits the RAG code snippet, highlighting the lines related to embedding generation and vector database retrieval.
-15. Explains BM25 as a probabilistic lexical ranking function, illustrating its mechanism with keyword indexing and a formula.
-16. Demonstrates BM25's efficient scaling performance compared to linear and inverted index search across varying document counts.
-17. Discusses BM25's failure cases, such as synonym gaps and aliases, concluding it's a strong baseline for keyword-heavy queries needing sub-second response.
-18. Directs to a Hugging Face article and GitHub repository for a high-performance Python implementation of BM25.
-19. Illustrates how language models convert text into dense embedding vectors through a neural encoder.
-20. Visualizes embeddings in a 2D space, demonstrating how semantic similarity groups related concepts and resolves lexical issues.
-21. Shows examples of widespread use of semantic search, including Google's BERT and a leaderboard of sentence-transformer models on Hugging Face.
-22. Presents a scatter plot comparing inference speed and NDCG@10 scores of various transformer and static models on the NanoBEIR Benchmark, pointing out BM25.
-23. Describes static embeddings (Model2Vec) as uncontextualized, fast, and lightweight, but with lower accuracy.
-24. Uses a cartoon analogy to explain the difference between Word2Vec (token-level) and Transformer models (sentence-level) in understanding context.
-25. Reiterates the scatter plot comparing embedding models, emphasizing the multitude of available models and their performance trade-offs.
-26. Introduces the MTEB/RTEB leaderboard on Hugging Face, showcasing performance across hundreds of models, tasks, and languages.
-27. Provides a bubble chart for selecting an embedding model based on accuracy, latency, compute requirements (CPU/GPU), and number of parameters.
-28. Lists additional considerations for selecting an embedding model, including model size, architecture, embedding dimension, and training data.
-29. Explains Matryoshka Embedding Models, which allow truncating embeddings to different dimensions without losing quality.
-30. Details Sentence Transformers as models designed for sentence-level meaning, semantic search, and efficient retrieval performance.
-31. Illustrates the architecture of a cross-encoder or reranker, showing a two-stage process of initial vector search followed by a more precise reranking.
-32. Duplicates the illustration of a cross-encoder or reranker architecture, emphasizing the two-stage retrieval and re-ranking process.
-33. Presents a bar chart demonstrating how adding a reranker significantly boosts accuracy in Llama 3.1 70B powered RAG.
-34. Shows an approximate execution flow for RAG, highlighting that reranking can account for a substantial portion (28.6%) of the overall latency.
-35. Points to a Colab notebook demonstrating a hands-on example of a Retrieve & Re-Rank setup over Simple Wikipedia.
-36. Introduces an "Instruction Following Reranker" that can reorder search results based on specific instructions, exemplified by product reviews and safety alerts.
-37. Illustrates the benefits of combining multiple retrievers (BM25, BGE, E5 Mistral, Voyager-large-2) and rerankers to improve recall.
-38. Presents a diagram from a Kaggle competition demonstrating the use of cascading rerankers to refine retrieval results.
-39. Recommends best practices for retrieval, combining semantic search, lexical search, reciprocal rank fusion, and reranking.
-40. Provides a taxonomy of embedding models, categorizing them by speed, accuracy, and use cases, from static embeddings to cross-encoders.
-41. Showcases several new embedding models, including mmBERT, IBM's Granite, and Google's EmbeddingGemma, indicating ongoing innovation.
-42. Lists other advanced retrieval methods like SPLADE, ColBERT Late Interaction, and GraphRAG, acknowledging many RAG flavors exist.
-43. Addresses operational concerns for RAG, comparing performance and latency for computing and storing embeddings across different systems (FAISS, Pinecone, ChromaDB).
-44. Illustrates a vector database layered storage architecture, optimizing for latency requirements across hot, warm, and cold data tiers.
-45. A chart demonstrating that as datastore size increases, improving retrieval performance becomes crucial, especially for cross-encoder and lexical oracle methods.
-46. Visually compares search strategies, contrasting traditional RAG with agentic RAG's more exploratory and dynamic approach to finding information.
-47. Shows a code example of an agentic reasoning model continually querying until a task, like scientific research evaluation, is satisfied.
-48. Presents a flowchart for Agentic RAG, featuring iterative steps of retrieval, grading relevance, and query rewriting until an answer is found.
-49. Provides a detailed example of an agent performing complex tool-use and reasoning steps to answer a question about managing published changes.
-50. Outlines the "Open Deep Research" pipeline, a multi-agent framework encompassing scope clarification, research, and report generation.
-51. Displays the DeepResearch Bench leaderboard, showing model performance on 100 PhD-level research tasks.
-52. Shows the user interface of Westlaw AI Deep Research, an agentic system for generating detailed, cited legal research reports.
-53. Illustrates the Self RAG process, incorporating nodes for grading retrieval relevance and checking for hallucinations before generating an answer.
-54. Features a Reddit post discussing "Self-Reflection RAG," which evaluates retrieved documents and its own generations, deciding when to retrieve or use internal knowledge.
-55. Presents a Reddit comment highlighting the inefficiency of agentic RAG's full pipeline restart and suggesting improvements like early stopping and caching.
-56. Introduces BRIGHT (Reasoning-based Retrieval) research, analyzing queries across keyword-based, semantic, and reasoning-based retrieval levels.
-57. Details the DIVER framework, a component of BRIGHT, which includes document chunking, query expansion, and multi-stage reranking for reasoning-intensive information retrieval.
-58. Provides the specific LLM prompts used in DIVER-QExpand for both first-round and subsequent rounds of query expansion.
-59. Compares the factuality and latency of One Shot RAG versus Agentic RAG on WixQA, showing higher accuracy for Agentic RAG at the cost of higher latency.
-60. Challenges assumptions by showing that BM25 can outperform SBERT in NDCG@10 scores when used with LLM querying, depending on the model.
-61. Demonstrates that Agentic RAG, even when restricted to BM25 for retrieval, maintains high factual equivalence on both WixQA and a financial dataset.
-62. Discusses Agentic RAG for code search, noting that sophisticated models like Claude Code sometimes rely solely on lexical/iterative search (like `grep`) instead of vectors.
-63. Presents a "Response Guardrail" system, a two-tier approach combining NLP embedding guardrails and LLM-based guardrails to ensure compliant and coherent responses.
-64. Offers a hands-on resource comparing Agentic RAG using Hugging Face's `smolagents` library against vanilla RAG.
-65. Proposes solutions for RAG challenges: rerankers for high-cost mistakes, BM25/static embeddings for low latency, and agentic RAG for complex multi-hop queries.
-66. Provides a checklist for choosing a retriever, including keyword/BM25, semantic search/embedding models, and agentic/reasoning LLMs.
-67. Reverts to the full RAG system diagram, now integrating an "Instruction Following Reranker" into the retrieval stage.
-68. Discusses RAG's generation phase, emphasizing the need for generation models to produce coherent answers rather than just search results.
-69. Outlines considerations for selecting a generation model in RAG, including cost, latency, hallucination control, domain specificity, and context window management.
-70. Demonstrates "Contextual Chunking," which adds prefix information to document chunks to provide more context during retrieval.
-71. Concludes the presentation, restating the title and providing speaker contact information and a GitHub link.
+Here's a one-sentence summary for each slide:
+
+1.  **Title Slide:** Introduces the presentation "From Vectors to Agents: Managing RAG in an Agentic World" by Rajiv Shah.
+2.  **ACME GPT:** Presents a stylized logo for "ACME GPT" featuring a brain with circuit patterns inside a glowing circle over a city skyline.
+3.  **Building RAG is Easy:** Illustrates a basic RAG (Retrieval-Augmented Generation) workflow from user query to LLM output with semantic search.
+4.  **Building RAG is Easy (Code Example):** Shows a Python code snippet using LangChain to implement a simple RAG pipeline.
+5.  **RAG Reality Check:** Highlights that 95% of Gen AI projects fail to reach production due to challenges in accuracy, latency, scaling, cost, and compliance.
+6.  **Maybe try a different RAG?:** Lists a multitude of RAG variants and advanced retrieval techniques, emphasizing the complexity and breadth of the field.
+7.  **Ultimate RAG Solution:** Depicts a humorous, over-engineered cartoon machine as a metaphorical "ultimate RAG solution" with many interconnected components.
+8.  **RAG as a system:** Breaks down RAG into a four-stage system: Parsing, Querying, Retrieving, and Generation, with detailed sub-steps for each.
+9.  **Designing a RAG Solution:** Introduces a triangular framework for RAG tradeoffs focusing on Problem Complexity, Latency, and Cost, alongside the "Cost of a mistake."
+10. **RAG Considerations:** Lists key factors to consider for RAG solutions like extraction, latency, query amount, multilingual support, domain difficulty, and data quality, and presents a table categorizing generation tasks by complexity.
+11. **Consider Query Complexity:** Provides examples of queries with increasing complexity, from simple keywords to multi-hop and agentic scenarios, to illustrate different RAG demands.
+12. **Retrieval (Highlighted):** Highlights the "Retrieving" stage of the RAG system diagram, emphasizing it as the current focus.
+13. **Retrieval Approaches:** Outlines three main retrieval approaches: BM25 (keyword-based), Language Models (semantic embeddings), and Agentic Search (dynamic LLM reasoning).
+14. **Building RAG is Easy (Code Highlight):** Highlights the vector database and retriever initialization in the earlier Python RAG code, representing basic semantic search.
+15. **BM25:** Explains BM25 as a probabilistic lexical ranking function using diagrams of an inverted index and its scoring formula.
+16. **BM25 Performance:** Presents a table showing BM25's efficient performance in terms of time taken for search compared to linear scan and inverted index methods as document count increases.
+17. **BM25 Failure Cases:** Illustrates scenarios where BM25 fails due to synonym gaps or unrecognized aliases, concluding that it's a strong baseline for keyword-heavy, sub-second queries.
+18. **Hands on: BM25s:** References a Hugging Face article and GitHub repository for a high-performance Python implementation of BM25.
+19. **Enter Language Models:** Explains how language models encode text into dense embedding vectors to capture semantic meaning.
+20. **Embeddings Visualized:** Visualizes embeddings in a 2D space, demonstrating how semantic similarity groups related concepts and resolves lexical issues that BM25 struggles with.
+21. **Semantic search is widely used:** Shows a Google SearchLiaison tweet announcing BERT's impact on search and a Hugging Face page listing numerous sentence transformer models.
+22. **Which language model?:** Presents a scatter plot comparing the inference speed and NDCG@10 scores of various transformer and static embedding models, including BM25.
+23. **Static Embeddings:** Explains static embeddings (like Word2Vec) as uncontextualized, fast, and lightweight but with lower accuracy, using a diagram to show conceptual clustering.
+24. **Why Context Matters:** Uses a cartoon comparison between Word2Vec and a Transformer Model to illustrate how transformers understand context, unlike static embeddings.
+25. **Many more models!:** Re-displays the scatter plot of embedding models with a red arrow pointing towards higher performance, suggesting a continuous evolution of models.
+26. **MTEB/RTEB:** Introduces the Massive Text Embedding Benchmark (MTEB) and the Retrieval Text Embedding Benchmark (RTEB) as comprehensive leaderboards for evaluating embedding models across tasks and languages.
+27. **Selecting an embedding model:** Presents a bubble chart showing Mean Task score vs. Number of Parameters for various embedding models, with color intensity indicating Max Tokens, and lists accuracy, latency, and compute as key selection criteria.
+28. **Selecting an embedding model (Other Considerations):** Lists additional factors for choosing embedding models, including model size, architecture (CPU/GPU/Quantization), embedding dimension, training data (multilingual/domain), and fine-tuning.
+29. **Matryoshka Embedding Models:** Explains Matryoshka embeddings, which allow truncated vectors to retain performance at smaller dimensions, making them flexible for different use cases.
+30. **Sentence Transformer:** Describes Sentence Transformers as models designed for sentence-level meaning, semantic search, better retrieval performance, and efficiency, illustrating their Siamese network architecture.
+31. **Cross Encoder / Reranker:** Explains the two-stage retrieval process: an initial vector search followed by a cross-encoder reranker to improve relevance, with a diagram of the workflow.
+32. **Cross Encoder / Reranker (Duplicate of 31):** This slide is identical to slide 31, reiterating the concept of cross-encoders and rerankers.
+33. **Cross Encoder / Reranker (Accuracy Boost):** Shows a bar chart demonstrating that adding a reranker significantly boosts retrieval accuracy (NDCG) in Llama 3.1 70B powered RAG.
+34. **Cross Encoder / Reranker (Execution Flow):** Presents an execution flow diagram for a RAG system, highlighting that reranking is a significant component in terms of time taken.
+35. **Hands On: Retriever & Reranker:** Provides a screenshot of a Colab notebook demonstrating a retrieve and re-rank setup over Simple Wikipedia, using a SentenceTransformer for initial retrieval and a CrossEncoder for reranking.
+36. **Instruction Following Reranker:** Shows an example of an instruction-following reranker that can dynamically rank documents based on specific instructions or criteria, such as "Default ranking" or "Safety Notice Official."
+37. **Combine Multiple Retrievers:** Illustrates that combining multiple retrievers (e.g., BM25, BGE, E5 Mistral, Voyager-large-2) and adding a reranker generally improves recall compared to individual retrievers.
+38. **Cascading Rerankers in Kaggle:** Features a diagram illustrating a Kaggle competition solution that uses a cascade of rerankers with different models and synthetic data generation to improve retrieval.
+39. **Best practices:** Presents a simplified workflow for optimal retrieval, combining Semantic Search and Lexical Search with Reciprocal Rank Fusion, followed by a Reranker.
+40. **Families of Embedding Models:** Provides a taxonomy of embedding models, categorizing them by speed and accuracy, and describing their characteristics from Model2Vec to Cross-Encoders.
+41. **Lots of New Models:** Showcases new embedding models like mmBERT, IBM Granite, and Google EmbeddingGemma, indicating ongoing innovation in the field.
+42. **Other retrieval methods:** Lists alternative retrieval methods beyond standard embeddings, such as SPLADE for sparse retrieval, ColBERT for late interaction, and GraphRAG.
+43. **Operational Concerns:** Discusses operational challenges in computing and storing embeddings, comparing the speed of various nearest neighbor search algorithms and vector database solutions.
+44. **Vector Database Options:** Presents a "Vector Database Layered Storage Architecture" diagram, categorizing storage tiers (Hot, Warm, Cold) based on latency requirements and application scenarios, with corresponding technical solutions.
+45. **Operational Concerns (Datastore Size):** Shows a graph indicating that as datastore size increases, improving retrieval performance (e.g., with cross-encoders or rerankers) becomes critical, outperforming lexical oracle and LM-only approaches.
+46. **Search Strategy Comparison:** Compares "Traditional RAG" with "Agentic RAG" visually, suggesting that agentic RAG explores the solution space more dynamically.
+47. **Tools use / Reasoning:** Explains the concept of using reasoning models and tools in an agentic system to iteratively query until a satisfactory answer is achieved, with a Python code example.
+48. **Agentic RAG (Workflow):** Presents a flowchart illustrating an Agentic RAG workflow involving iterative steps of query, retrieval, grading, relevance check, generation, hallucination check, and query rewrite.
+49. **Tools use / Reasoning (Detailed Example):** Shows a detailed example of an agent's reasoning process with tool calls and intermediate steps to answer a complex query about making published changes draft.
+50. **Open Deep Research:** Outlines the "Open Deep Research" framework, which involves distinct stages of scoping (user context), research (context gathering via sub-agents), and writing (report generation).
+51. **DeepResearch Bench:** Shows a leaderboard for the DeepResearch Bench, highlighting models' performance on 100 PhD-level research tasks, with Gemini 2.5 Pro leading.
+52. **Westlaw AI Deep Research:** Presents a screenshot of Westlaw AI Deep Research, demonstrating a real-world application of advanced RAG for legal research with agentic capabilities.
+53. **Agentic RAG (Self-RAG):** Re-displays the Agentic RAG workflow, specifically referencing it as "Self RAG" and highlighting its iterative nature with self-reflection.
+54. **Agentic RAG (LangChain Reddit):** Shows a Reddit post discussing a Self-Reflection RAG system built with LangChain that evaluates retrieved documents and its own responses.
+55. **Agentic RAG (Efficiency Concerns):** Continues the Reddit discussion, addressing the inefficiency of agentic RAG and suggesting solutions like early stopping, circuit breakers, and caching.
+56. **Research: BRIGHT:** Introduces "BRIGHT" as a framework for analyzing retrieval reasoning, demonstrating different levels of query complexity (keyword, semantic, reasoning-based) and their corresponding retrieved documents.
+57. **BRIGHT #1: DIVER:** Presents a diagram of the "DIVER" system (part of BRIGHT) for reasoning-intensive information retrieval, involving document chunking, query expansion, and a two-stage reranking process.
+58. **BRIGHT #1: DIVER (LLM Instructions):** Provides the specific LLM prompts used in DIVER-QExpand for query expansion in both the first and subsequent rounds of an iterative retrieval process.
+59. **Agentic RAG on WixQA:** Compares the factuality performance and latency of "One Shot RAG" versus "Agentic RAG" on the WixQA dataset, showing higher accuracy for agentic RAG but with much higher latency.
+60. **Rethink your Assumptions:** Presents a graph showing that even for advanced LLM models, a simple BM25 retriever can be competitive or even outperform SBERT and other models in certain scenarios when queried with an LLM.
+61. **Agentic RAG with BM25:** Demonstrates that Agentic RAG combined with BM25 (lexical search) can achieve comparable high factuality scores to Agentic RAG with embedding models, on both WixQA and a Financial Dataset.
+62. **Agentic RAG for Code Search:** Discusses the surprising effectiveness of lexical search (like `grep`) for code search within Agentic RAG, particularly with models like Anthropic Claude Code, potentially outperforming vector search for this domain.
+63. **Combine Retrieval Approaches:** Illustrates a "Response Guardrail System" that uses a two-tier approach of text and LLM-based guardrails (checking groundness, coherence, compliance) to ensure the quality of generated responses.
+64. **Hands on: Agentic RAG (Smolagents):** Points to a Colab notebook that provides a hands-on guide to building Agentic RAG using Hugging Face `smolagents` and comparing it to Vanilla RAG.
+65. **Solutions for a RAG Solution:** Maps specific RAG solutions to the "Problem Complexity (instead of accuracy)" framework, suggesting Rerankers for high cost of mistakes, BM25 + Static Embeddings for <5s latency, and Agentic RAG for complex multi-hop queries.
+66. **Retriever Checklist:** Provides a checklist of retrieval approaches: Keyword/BM25, Semantic Search/Embedding Model, and Agentic/Reasoning LLM.
+67. **RAG as a system (Retrieval with Instruction Following Reranker):** Updates the RAG system diagram, specifically replacing "Reranker" with "Instruction Following Reranker" in the retrieval stage.
+68. **RAG - Generation:** Discusses the generation stage of RAG, highlighting the goal of producing coherent answers rather than just search results, and noting recent technical improvements in this area.
+69. **RAG - Generation (Model Selection):** Explains that choosing a generation model depends on cost/latency budget and specific needs (low hallucination, domain-specific, language-specific), and shows various LLM options.
+70. **Chunking approaches:** Compares standard "Original" chunking with "Contextual Chunking," which adds prefix information to document chunks to provide better context for the LLM.
+71. **Title Slide (Duplicate):** This slide is identical to slide 1, serving as a concluding title slide.

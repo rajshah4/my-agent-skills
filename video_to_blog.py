@@ -26,14 +26,14 @@ load_dotenv()
 
 CONFIG = {
     # Talk details
-    "video_url": "https://youtu.be/qPHsWTZP58U",
-    "slides_pdf": Path.home() / "Downloads" / "Evaluation_ODSC_Oct_2025 (1).pdf",
-    "talk_name": "genai-evaluation-guide",  # Used for output directory
+    "video_url": "https://youtu.be/AS_HlJbJjH8",
+    "slides_pdf": Path.home() / "Downloads" / "RAG_Oct2025.pdf",
+    "talk_name": "rag-talk",  # Used for output directory
 
     # Quarto metadata (for final blog post)
-    "title": "A Practical Guide to Evaluating Generative AI Applications",
-    "date": "2025-11-01",
-    "categories": ["GenAI", "Evaluation", "LLM", "Testing"],
+    "title": "From Vectors to Agents: Managing RAG in an Agentic World",
+    "date": "2025-10-27",
+    "categories": ["RAG", "AI", "Retrieval", "Agentic", "Annotated Talk"],
     "author": "Rajiv Shah",
 
     # Optional: Custom output location
