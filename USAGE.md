@@ -4,6 +4,31 @@ This repo contains both AI skills (for Claude Code) and Python utilities (from H
 
 ## Setup
 
+### 1. Environment Variables
+
+First, set up your API keys:
+
+```bash
+cd ~/Code/my-agent-skills
+
+# Copy the example file
+cp .env.example .env
+
+# Edit .env and add your keys
+nano .env  # or use your preferred editor
+```
+
+**Required:**
+- `GEMINI_API_KEY` - Get at https://aistudio.google.com/app/apikey
+
+**Optional (add as needed):**
+- `OPENAI_API_KEY` - For OpenAI models
+- `ANTHROPIC_API_KEY` - For Claude models
+- `ASSEMBLYAI_API_KEY` - For transcription services
+- See `.env.example` for full list
+
+### 2. Activate Virtual Environment
+
 The Python utilities are installed in a virtual environment:
 
 ```bash
@@ -12,7 +37,7 @@ cd ~/Code/my-agent-skills
 # Activate the virtual environment
 source .venv/bin/activate
 
-# Now you can use the writing tools
+# The .env file is automatically loaded when you import hamel modules
 ```
 
 ## Available Tools
@@ -79,15 +104,6 @@ After restarting Claude Code, these skills are automatically available:
 - `/kit` - Starter kit for projects
 
 Just mention your task naturally and Claude will invoke the relevant skill when appropriate.
-
-## Environment Variables
-
-Make sure you have the required API keys in your environment:
-
-```bash
-# .env file
-GEMINI_API_KEY=your_key_here  # For Gemini AI
-```
 
 ## Examples
 

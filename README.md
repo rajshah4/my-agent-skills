@@ -19,12 +19,35 @@ git clone https://github.com/rajshah4/my-agent-skills.git ~/Code/my-agent-skills
 # Create symlink to Claude's skills directory
 ln -s ~/Code/my-agent-skills/skills ~/.claude/skills
 
+# Set up environment variables
+cd ~/Code/my-agent-skills
+cp .env.example .env
+# Edit .env and add your API keys
+
+# Set up Python utilities (optional - for video-to-blog workflows)
+uv venv
+source .venv/bin/activate
+uv pip install git+https://github.com/hamelsmu/hamel.git
+
 # Restart Claude Code to load skills
 ```
 
 ### For Other AI Assistants
 
 Copy the skills to your assistant's configuration directory or reference them as needed.
+
+## Environment Setup
+
+API keys are stored in `.env` (not committed to git):
+
+1. Copy the example file: `cp .env.example .env`
+2. Edit `.env` and add your keys:
+   - `GEMINI_API_KEY` - Required for content generation ([Get key](https://aistudio.google.com/app/apikey))
+   - `OPENAI_API_KEY` - Optional, for OpenAI models
+   - `ANTHROPIC_API_KEY` - Optional, for Claude models
+   - Other keys as needed (see `.env.example`)
+
+The Python utilities automatically load `.env` using `python-dotenv`.
 
 ## Available Skills
 
