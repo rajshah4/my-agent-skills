@@ -15,22 +15,22 @@ import re
 
 CONFIG = {
     # Source (from video_to_blog.py output)
-    "talk_name": "rag-talk",
-    "source_dir": Path.home() / "Code" / "my-agent-skills" / "output" / "rag-talk",
+    "talk_name": "genai-evaluation-guide",
+    "source_dir": Path.home() / "Code" / "my-agent-skills" / "output" / "genai-evaluation-guide",
 
     # Destination (Quarto blog)
     "blog_dir": Path.home() / "Code" / "rajistics_blog",
 
     # Quarto post filename
-    "post_filename": "rag-agentic-world.qmd",
+    "post_filename": "genai-evaluation-guide.qmd",
 
     # Quarto front matter
-    "title": "From Vectors to Agents: Managing RAG in an Agentic World",
-    "date": "2025-01-15",
-    "categories": ["RAG", "AI", "Retrieval", "Agentic"],
+    "title": "A Practical Guide to Evaluating Generative AI Applications",
+    "date": "2025-11-01",
+    "categories": ["GenAI", "Evaluation", "LLM", "Testing"],
 
     # Video URL
-    "video_url": "https://youtu.be/AS_HlJbJjH8",
+    "video_url": "https://youtu.be/qPHsWTZP58U",
 
     # Options
     "auto_render": True,  # Run quarto render after creating
@@ -49,6 +49,21 @@ def strip_front_matter(content: str) -> str:
     pattern = r'^---\s*\n.*?\n---\s*\n'
     cleaned = re.sub(pattern, '', content, count=1, flags=re.DOTALL)
     return cleaned.strip()
+
+def demote_section_headers(content: str) -> str:
+    """
+    Convert ## headers to ### headers.
+    This prevents section headers from becoming separate tabs in Quarto.
+    """
+    lines = content.split('\n')
+    result = []
+    for line in lines:
+        if line.startswith('## '):
+            # Demote to ###
+            result.append('###' + line[2:])
+        else:
+            result.append(line)
+    return '\n'.join(result)
 
 # ============================================
 # MAIN SCRIPT
@@ -93,7 +108,11 @@ def main():
     print("🧹 Cleaning content...")
     summary_content = strip_front_matter(summary_content)
     full_content = strip_front_matter(full_content)
-    print("   ✅ Removed any embedded front matter\n")
+
+    # Demote ## headers to ### to prevent extra tabs
+    summary_content = demote_section_headers(summary_content)
+    full_content = demote_section_headers(full_content)
+    print("   ✅ Removed embedded front matter and fixed header levels\n")
 
     # Update image paths to use full URLs (as in existing posts)
     print("🖼️  Updating image paths...")
